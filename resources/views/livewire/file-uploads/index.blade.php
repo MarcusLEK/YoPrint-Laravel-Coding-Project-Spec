@@ -1,5 +1,6 @@
 <?php
 
+use App\Jobs\ProcessCsv;
 use App\Models\FileUpload;
 use Illuminate\Support\Collection;
 use Livewire\Volt\Component;
@@ -43,7 +44,7 @@ new class extends Component {
     {
         FileUpload::create([
             'name' => $this->file->getClientOriginalName(),
-            'status' => 0,
+            'status' => \App\Consts\Status::PENDING,
         ]);
     }
 }; ?>
@@ -54,7 +55,7 @@ new class extends Component {
             <x-file wire:model="file" label="CSV File" hint="Only CSV" accept="application/csv"/>
 
             <x-slot:actions>
-                <x-button label="Upload" class="btn-primary" type="submit" spinner="save" />
+                <x-button label="Upload" class="btn-primary" type="submit" spinner="save"/>
             </x-slot:actions>
         </x-form>
     </x-card>

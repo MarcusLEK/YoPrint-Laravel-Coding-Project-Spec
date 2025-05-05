@@ -10,4 +10,6 @@ class FileUpload extends Model
         'name',
         'status',
     ];
+
+
 }

@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Consts;
+
 class Status {
     const PENDING = 0;
     const PROCESSING = 1;
