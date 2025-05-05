@@ -3,8 +3,14 @@
 use App\Models\FileUpload;
 use Illuminate\Support\Collection;
 use Livewire\Volt\Component;
+use Livewire\WithFileUploads;
 
 new class extends Component {
+
+    use WithFileUploads;
+
+    #[Validate('max:100000')]
+    public $file;
 
     public array $sortBy = ['column' => 'created_at', 'direction' => 'desc'];
 
@@ -32,26 +38,29 @@ new class extends Component {
             'headers' => $this->headers()
         ];
     }
+
+    public function save()
+    {
+        FileUpload::create([
+            'name' => $this->file->getClientOriginalName(),
+            'status' => 0,
+        ]);
+    }
 }; ?>
 
 <div>
     <x-card class="mb-3" shadow>
-        <x-file wire:model="file" label="Excel" hint="Only Excel" accept="application/pdf"/>
+        <x-form wire:submit="save" no-separator>
+            <x-file wire:model="file" label="CSV File" hint="Only CSV" accept="application/csv"/>
+
+            <x-slot:actions>
+                <x-button label="Upload" class="btn-primary" type="submit" spinner="save" />
+            </x-slot:actions>
+        </x-form>
     </x-card>
 
     <!-- TABLE  -->
     <x-card shadow>
         <x-table :headers="$headers" :rows="$fileUploads" :sort-by="$sortBy"></x-table>
     </x-card>
-
-    <!-- FILTER DRAWER -->
-    <x-drawer wire:model="drawer" title="Filters" right separator with-close-button class="lg:w-1/3">
-        <x-input placeholder="Search..." wire:model.live.debounce="search" icon="o-magnifying-glass"
-                 @keydown.enter="$wire.drawer = false"/>
-
-        <x-slot:actions>
-            <x-button label="Reset" icon="o-x-mark" wire:click="clear" spinner/>
-            <x-button label="Done" icon="o-check" class="btn-primary" @click="$wire.drawer = false"/>
-        </x-slot:actions>
-    </x-drawer>
 </div>
