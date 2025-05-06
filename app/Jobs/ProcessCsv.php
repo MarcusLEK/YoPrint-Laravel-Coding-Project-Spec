@@ -32,7 +32,7 @@ class ProcessCsv implements ShouldQueue
     {
         $this->fileUpload->update(['status' => Status::PROCESSING]);
 
-        Excel::import(new ProductsImport(), $this->fileUpload->file_path);
+        Excel::import(new ProductsImport(), storage_path('app/private/' . $this->fileUpload->file_path));
 
         $this->fileUpload->update(['status' => Status::COMPLETED]);
     }

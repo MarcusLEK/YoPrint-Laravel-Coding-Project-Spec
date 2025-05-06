@@ -43,12 +43,16 @@ new class extends Component {
 
     public function save()
     {
-        $filePath = $this->file->store(path: 'file');
         $fileUpload = FileUpload::create([
             'name' => $this->file->getClientOriginalName(),
             'status' => \App\Consts\Status::PENDING,
-            'file_path' => $filePath,
+            'file_path' => $this->file->store(path: 'file'),
         ]);
+
+//        Collect(file(storage_path('app/private/' . $fileUpload->file_path)))
+//            ->skip(1)
+//            ->map(fn($lines) => str_getcsv($lines))
+//            ->dd();
 
         ProcessCsv::dispatch($fileUpload);
     }
