@@ -41,11 +41,11 @@ class ProductsImport implements ToModel, WithHeadingRow, WithBatchInserts, WithU
 
     public function batchSize(): int
     {
-        return 500;
+        return 1000;
     }
 
     public function chunkSize(): int
     {
-        return 500;
+        return 1000;
     }
 }

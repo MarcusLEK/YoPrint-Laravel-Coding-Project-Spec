@@ -16,11 +16,11 @@ return new class extends Migration
             $table->string('unique_key')->unique()->index();
             $table->string('product_title');
             $table->text('product_description');
-            $table->string('style');
-            $table->string('sanmar_mainframe_color');
-            $table->string('size');
-            $table->string('color_name');
-            $table->string('piece_price');
+            $table->text('style');
+            $table->text('sanmar_mainframe_color');
+            $table->text('size');
+            $table->text('color_name');
+            $table->text('piece_price');
             $table->timestamps();
         });
     }
