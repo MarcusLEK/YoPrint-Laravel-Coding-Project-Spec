@@ -49,11 +49,6 @@ new class extends Component {
             'file_path' => $this->file->store(path: 'file'),
         ]);
 
-//        Collect(file(storage_path('app/private/' . $fileUpload->file_path)))
-//            ->skip(1)
-//            ->map(fn($lines) => str_getcsv($lines))
-//            ->dd();
-
         ProcessCsv::dispatch($fileUpload);
     }
 }; ?>
