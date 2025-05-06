@@ -38,7 +38,7 @@ class ProcessCsv implements ShouldQueue
         fgetcsv($handle); // skip header
 
         $pdo = DB::connection()->getPdo();
-        $stmt = $pdo->prepare("UPSERT INTO products (unique_key, product_title, product_description, style, sanmar_mainframe_color, size, color_name, piece_price) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt = $pdo->prepare("INSERT INTO products (unique_key, product_title, product_description, style, sanmar_mainframe_color, size, color_name, piece_price) VALUES (?, ?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE");
 
         while (($row = fgetcsv($handle)) !== false) {
             $stmt->execute([
