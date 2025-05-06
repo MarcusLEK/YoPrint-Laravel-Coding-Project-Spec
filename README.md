@@ -16,9 +16,9 @@ A: I decided to test different solutions to see which one would provide a better
 
 Solution-1: My own solution with minimal help using chatGPT. Works but not the best at it can be quite slow, takes about 5 minutes to process the initial file.
 
-Solution-2: Implement chunking which significantly increase the processing speed. Approx 4-5s to process the initial file.
+Solution-2 (Best): Implement chunking which significantly increase the processing speed. Approx 4-5s to process the initial file.
 
-Solution-3: Alternative to solution-2 but approx the same speed in terms of processing.
+Solution-3 (Best): Alternative to solution-2 but approx the same speed in terms of processing.
 
 Solution-4: Tried to implement PDO statement but did not work.
 
