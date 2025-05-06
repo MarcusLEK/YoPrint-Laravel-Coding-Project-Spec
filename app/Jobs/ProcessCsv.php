@@ -9,6 +9,7 @@ use App\Models\Product;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\LazyCollection;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ProcessCsv implements ShouldQueue
@@ -44,7 +45,8 @@ class ProcessCsv implements ShouldQueue
                 'size' => mb_convert_encoding($productData[18], 'UTF-8'),
                 'color_name' => mb_convert_encoding($productData[14], 'UTF-8'),
                 'piece_price' => mb_convert_encoding($productData[21], 'UTF-8'),
-            ])->each(fn($productData) => Product::create($productData));
+            ])->chunk(1000)
+            ->each(fn($chunk) => Product::upsert($chunk->all(), uniqueBy: ['unique_key'], update: ['product_title', 'product_description', 'style', 'sanmar_mainframe_color', 'size', 'color_name', 'piece_price']));
 
         $this->fileUpload->update(['status' => Status::COMPLETED]);
     }
