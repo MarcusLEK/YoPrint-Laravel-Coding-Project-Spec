@@ -39,9 +39,10 @@ class ProcessCsv implements ShouldQueue
 
         $pdo = DB::connection()->getPdo();
         $stmt = $pdo->prepare("INSERT INTO products (unique_key, product_title, product_description, style, sanmar_mainframe_color, size, color_name, piece_price) VALUES (?, ?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE");
+        fgetcsv($handle); // skip header
 
         while (($row = fgetcsv($handle)) !== false) {
-            $stmt->execute([
+            $productDataChunk[] = [
                 mb_convert_encoding($row[0], 'UTF-8'),
                 mb_convert_encoding($row[1], 'UTF-8'),
                 mb_convert_encoding($row[2], 'UTF-8'),
@@ -50,7 +51,16 @@ class ProcessCsv implements ShouldQueue
                 mb_convert_encoding($row[18], 'UTF-8'),
                 mb_convert_encoding($row[14], 'UTF-8'),
                 mb_convert_encoding($row[21], 'UTF-8'),
-            ]);
+            ];
+
+            if (count($productDataChunk) === 1000) {
+                $stmt->execute($productDataChunk);
+                $productDataChunk = [];
+            }
+        }
+        if (!empty($productDataChunk)) {
+            $stmt->execute($productDataChunk);
+            $productDataChunk = [];
         }
         fclose($handle);
 
