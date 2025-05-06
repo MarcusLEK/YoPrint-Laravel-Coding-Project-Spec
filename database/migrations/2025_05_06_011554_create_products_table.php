@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('unique_key')->index();
             $table->string('product_title');
-            $table->string('product_description');
+            $table->text('product_description');
             $table->string('style');
             $table->string('sanmar_mainframe_color');
             $table->string('size');

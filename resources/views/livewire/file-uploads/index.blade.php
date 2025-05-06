@@ -44,10 +44,6 @@ new class extends Component {
     public function save()
     {
         $filePath = $this->file->store(path: 'file');
-        $utf8FileData = mb_convert_encoding(Storage::get($filePath), 'UTF-8');
-        $newFileName = $this->file->getClientOriginalName();
-        file_put_contents($newFileName, $utf8FileData);
-
         $fileUpload = FileUpload::create([
             'name' => $this->file->getClientOriginalName(),
             'status' => \App\Consts\Status::PENDING,
