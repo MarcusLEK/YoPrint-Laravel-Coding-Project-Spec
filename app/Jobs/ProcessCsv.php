@@ -51,10 +51,10 @@ class ProcessCsv implements ShouldQueue
                 Product::upsert($productDataChunk, uniqueBy: ['unique_key'], update: ['product_title', 'product_description', 'style', 'sanmar_mainframe_color', 'size', 'color_name', 'piece_price']);
                 $productDataChunk = [];
             }
-
-            if (!empty($productDataChunk)) {
-                Product::upsert($productDataChunk, uniqueBy: ['unique_key'], update: ['product_title', 'product_description', 'style', 'sanmar_mainframe_color', 'size', 'color_name', 'piece_price']);
-            }
+        }
+        if (!empty($productDataChunk)) {
+            Product::upsert($productDataChunk, uniqueBy: ['unique_key'], update: ['product_title', 'product_description', 'style', 'sanmar_mainframe_color', 'size', 'color_name', 'piece_price']);
+            $productDataChunk = [];
         }
         fclose($handle);
 
