@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Consts\Status;
 use App\Models\FileUpload;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
@@ -25,6 +26,8 @@ class ProcessCsv implements ShouldQueue
      */
     public function handle(): void
     {
+        $this->fileUpload->update(['status' => Status::PROCESSING]);
+
 
     }
 }

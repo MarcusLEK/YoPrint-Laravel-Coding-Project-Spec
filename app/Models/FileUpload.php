@@ -10,7 +10,7 @@ class FileUpload extends Model
     protected $fillable = [
         'name',
         'status',
-        'file_url',
+        'file_path',
     ];
 
     protected $appends = ['status_text'];

@@ -3,6 +3,7 @@
 use App\Jobs\ProcessCsv;
 use App\Models\FileUpload;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Volt\Component;
 use Livewire\WithFileUploads;
 
@@ -42,17 +43,22 @@ new class extends Component {
 
     public function save()
     {
+        $filePath = $this->file->store(path: 'file');
+        $utf8FileData = mb_convert_encoding(Storage::get($filePath), 'UTF-8');
+        $newFileName = $this->file->getClientOriginalName();
+        file_put_contents($newFileName, $utf8FileData);
+
         $fileUpload = FileUpload::create([
             'name' => $this->file->getClientOriginalName(),
             'status' => \App\Consts\Status::PENDING,
-            'storage' => $this->file->store(path: 'file'),
+            'file_path' => $filePath,
         ]);
 
         ProcessCsv::dispatch($fileUpload);
     }
 }; ?>
 
-<div>
+<div wire:poll>
     <x-card class="mb-3" shadow>
         <x-form wire:submit="save" no-separator>
             <x-file wire:model="file" label="CSV File" hint="Only CSV" accept="application/csv"/>
