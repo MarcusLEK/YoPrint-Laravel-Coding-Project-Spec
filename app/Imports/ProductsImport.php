@@ -10,7 +10,7 @@ use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithBatchInserts;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class ProductsImport implements ToModel, WithHeadingRow, WithBatchInserts, WithUpserts
+class ProductsImport implements ToModel, WithHeadingRow, WithBatchInserts, WithUpserts, WithChunkReading
 {
     /**
     * @param array $row
