@@ -10,14 +10,14 @@ class ProcessCsv implements ShouldQueue
 {
     use Queueable;
 
-    public $file;
+    public FileUpload $fileUpload;
 
     /**
      * Create a new job instance.
      */
-    public function __construct($file)
+    public function __construct($fileUpload)
     {
-        $this->file = $file;
+        $this->fileUpload = $fileUpload;
     }
 
     /**

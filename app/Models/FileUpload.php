@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Consts\Status;
 use Illuminate\Database\Eloquent\Model;
 
 class FileUpload extends Model
@@ -9,7 +10,15 @@ class FileUpload extends Model
     protected $fillable = [
         'name',
         'status',
+        'file_url',
     ];
 
+    protected $appends = ['status_text'];
 
+    public function getStatusTextAttribute()
+    {
+        $statuses = Status::all();
+
+        return $statuses[$this->status];
+    }
 }

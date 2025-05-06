@@ -21,7 +21,7 @@ new class extends Component {
         return [
             ['key' => 'created_at', 'label' => 'Time', 'class' => 'w-1'],
             ['key' => 'name', 'label' => 'File Name', 'class' => 'w-64'],
-            ['key' => 'status', 'label' => 'Status', 'class' => 'w-20'],
+            ['key' => 'status_text', 'label' => 'Status', 'class' => 'w-20'],
         ];
     }
 
@@ -42,10 +42,13 @@ new class extends Component {
 
     public function save()
     {
-        FileUpload::create([
+        $fileUpload = FileUpload::create([
             'name' => $this->file->getClientOriginalName(),
             'status' => \App\Consts\Status::PENDING,
+            'storage' => $this->file->store(path: 'file'),
         ]);
+
+        ProcessCsv::dispatch($fileUpload);
     }
 }; ?>
 
